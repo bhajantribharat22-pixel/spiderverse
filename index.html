@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Our Little Universe 🕷️</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #07060a;
+            color: white;
+            font-family: "Inter", sans-serif;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(255, 50, 130, .18), transparent 30%),
+                radial-gradient(circle at 85% 70%, rgba(130, 70, 255, .18), transparent 30%),
+                #07060a;
+        }
+
+        .glow {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: .18;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glow.one {
+            background: #ff2f92;
+            top: -150px;
+            left: -100px;
+        }
+
+        .glow.two {
+            background: #693cff;
+            bottom: -150px;
+            right: -100px;
+        }
+
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(900px, 90%);
+            padding: 14px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 13, 20, .65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 50px;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #ff4fa3;
+        }
+
+        nav a {
+            color: #bbb;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 13px;
+            transition: .3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 25px 80px;
+        }
+
+        .tiny {
+            color: #ff6bad;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(55px, 10vw, 125px);
+            line-height: .9;
+            font-weight: 900;
+            letter-spacing: -7px;
+            background: linear-gradient(90deg, #ffd0e6, #ff4d9d, #a35cff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: titleFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+            0%,100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin-top: 35px;
+            color: #aaa;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .enter {
+            margin-top: 45px;
+            padding: 16px 28px;
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 50px;
+            background: rgba(255,255,255,.06);
+            backdrop-filter: blur(15px);
+            transition: .35s;
+        }
+
+        .enter:hover {
+            transform: translateY(-5px) scale(1.03);
+            background: rgba(255, 65, 150, .18);
+            border-color: #ff4fa3;
+            box-shadow: 0 0 35px rgba(255, 65, 150, .25);
+        }
+
+        .scroll {
+            margin-top: 70px;
+            color: #666;
+            font-size: 11px;
+            letter-spacing: 3px;
+        }
+
+        section {
+            min-height: 90vh;
+            padding: 120px 8%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-number {
+            color: #ff4fa3;
+            font-size: 12px;
+            letter-spacing: 5px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: clamp(45px, 7vw, 90px);
+            line-height: 1;
+            letter-spacing: -4px;
+            max-width: 900px;
+        }
+
+        .section-text {
+            margin-top: 30px;
+            max-width: 700px;
+            color: #999;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .memory {
+            margin-top: 70px;
+            width: min(1100px, 100%);
+            min-height: 560px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 30px;
+            overflow: hidden;
+            background: rgba(255,255,255,.035);
+            box-shadow: 0 30px 100px rgba(0,0,0,.4);
+        }
+
+        .photo-box {
+            min-height: 560px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-box::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,70,150,.15),
+                    transparent 50%,
+                    rgba(120,60,255,.15)
+                );
+            pointer-events: none;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(100%);
+            transition: transform 1s ease, filter 1s ease;
+        }
+
+        .memory:hover img {
+            transform: scale(1.06);
+            filter: grayscale(0%);
+        }
+
+        .memory-content {
+            padding: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .memory-content small {
+            color: #ff4fa3;
+            letter-spacing: 5px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .memory-content h2 {
+            margin-top: 25px;
+            font-size: clamp(38px, 5vw, 65px);
+            line-height: 1;
+            letter-spacing: -3px;
+        }
+
+        .memory-content p {
+            margin-top: 30px;
+            color: #999;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .spider {
+            font-size: 50px;
+            margin-top: 25px;
+            animation: spider 2s ease-in-out infinite;
+        }
+
+        @keyframes spider {
+            0%,100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-12px) rotate(5deg);
+            }
+        }
+
+        .final {
+            text-align: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .final h2 {
+            font-size: clamp(45px, 8vw, 100px);
+            letter-spacing: -5px;
+        }
+
+        .final p {
+            color: #888;
+            max-width: 600px;
+            line-height: 1.8;
+            margin-top: 30px;
+            font-size: 17px;
+        }
+
+        .heart {
+            margin-top: 35px;
+            font-size: 35px;
+            animation: heart 1.4s infinite;
+        }
+
+        @keyframes heart {
+            0%,100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.18);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #444;
+            font-size: 12px;
+        }
+
+        @media (max-width: 750px) {
+            nav {
+                width: 94%;
+            }
+
+            nav a {
+                margin-left: 8px;
+                font-size: 11px;
+            }
+
+            .hero h1 {
+                letter-spacing: -4px;
+            }
+
+            section {
+                padding: 100px 22px;
+            }
+
+            .memory {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-box {
+                min-height: 400px;
+            }
+
+            .memory-content {
+                padding: 45px 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background"></div>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+
+    <nav>
+        <div class="logo">
+            SPIDER<span>VERSE</span> 🕷️
+        </div>
+
+        <div>
+            <a href="#home">Home</a>
+            <a href="#story">Story</a>
+            <a href="#memory">Memory</a>
+        </div>
+    </nav>
+
+    <main id="home">
+
+        <section class="hero">
+
+            <div class="tiny">
+                A little universe made for you
+            </div>
+
+            <h1>
+                IN EVERY<br>
+                UNIVERSE
+            </h1>
+
+            <p>
+                Somewhere between a thousand timelines,
+                impossible cities and all the chaos in the
+                multiverse...
+                <br>
+                I'm glad our paths crossed. 🕷️💗
+            </p>
+
+            <a href="#story" class="enter">
+                ENTER OUR UNIVERSE ↓
+            </a>
+
+            <div class="scroll">
+                SCROLL TO EXPLORE
+            </div>
+
+        </section>
+
+        <section id="story">
+
+            <div class="section-number">
+                01 / OUR LITTLE THING
+            </div>
+
+            <h2 class="section-title">
+                Two people.<br>
+                One universe.
+            </h2>
+
+            <p class="section-text">
+                Not everything needs a dramatic explanation.
+                Sometimes a person just becomes one of your
+                favorite parts of life.
+                <br><br>
+                And somehow, out of all the possible timelines,
+                this one happened.
+            </p>
+
+        </section>
+
+        <section id="memory">
+
+            <div class="section-number">
+                02 / A MEMORY
+            </div>
+
+            <h2 class="section-title">
+                Some moments<br>
+                just feel different.
+            </h2>
+
+            <div class="memory">
+
+                <div class="photo-box">
+                    <img
+                        src="images/our-photo.jpg.jpg"
+                        alt="Our memory"
+                    >
+                </div>
+
+                <div class="memory-content">
+
+                    <small>
+                        FROM OUR UNIVERSE
+                    </small>
+
+                    <h2>
+                        A moment<br>
+                        worth keeping.
+                    </h2>
+
+                    <div class="spider">
+                        🕷️
+                    </div>
+
+                    <p>
+                        Out of all the possible timelines,
+                        I'm glad this became one of ours.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="final">
+
+            <div class="section-number">
+                03 / END OF THIS TIMELINE
+            </div>
+
+            <h2>
+                UNTIL THE<br>
+                NEXT UNIVERSE.
+            </h2>
+
+            <p>
+                Some stories don't need a perfect ending.
+                They just need a really good memory.
+            </p>
+
+            <div class="heart">
+                🕷️ 💗
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        Made with a little code & a lot of memories.
+    </footer>
+
+    <script>
+        const sections = document.querySelectorAll("section");
+
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+        sections.forEach(section => {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(35px)";
+            section.style.transition =
+                "opacity 1s ease, transform 1s ease";
+
+            observer.observe(section);
+        });
+    </script>
+
+</body>
+</html>
